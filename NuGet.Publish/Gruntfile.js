@@ -40,9 +40,9 @@ module.exports = function (grunt) {
             assemblyT4: path.join('Properties', 'AssemblyInfo.t4')
         },
         nugetPushConfiguration : {
-            //'https://www.nuget.org/api/v2/package'
-            source: 'http://w28sdev05.xd1.xf1.local/Nuget/',
-            appKey: process.env.NUGETKEYDEV
+            //'http://w28sdev05.xd1.xf1.local/Nuget/'
+            source: 'https://www.nuget.org/api/v2/package',
+            appKey: process.env.NUGETKEY
         },
         msBuildConfiguration : {
             projectConfigurations: configurationName,
