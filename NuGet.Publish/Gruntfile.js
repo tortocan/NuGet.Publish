@@ -49,7 +49,7 @@ module.exports = function (grunt) {
             {
                 source: 'http://w28sdev05uat/Nuget/',
                 appKey: process.env.NUGETKEYDEV,
-                isActive : true
+                isActive : false
             }
         ],
         msBuildConfiguration : {
@@ -108,27 +108,27 @@ module.exports = function (grunt) {
                 grunt.log.write(result);
             }
             done();
-        });
-        if (options.paths.nuspec !== undefined | null) {
-            //Get version from AssemblyInfo file.
-            var assembly = grunt.file.read(path.join(options.paths.csprojDirectory, options.paths.assembly));
-            var major = assembly.split('\n')[0].replace('// Major= ', '');
-            var minor = assembly.split('\n')[1].replace('// Minor= ', '');
-            var build = assembly.split('\n')[2].replace('// Build= ', '');
-            var revision = assembly.split('\n')[3].replace('// Revision= ', '');
-            var assemblyVersion = [major, minor, build, revision].join('.').replace(/(\r\n|\n|\r)/gm, '');
-            //Edit nuspec file.
-            var xpath = require('xpath');
-            var dom = require('xmldom').DOMParser;
-            var xml = grunt.file.read(path.join(options.paths.csprojDirectory, options.paths.nuspec));
-            var doc = new dom().parseFromString(xml);
-            var version = xpath.select("//package/metadata/version", doc);
-            //Update if not the same.
-            if (assemblyVersion !== version[0].textContent) {
-                version[0].textContent = assemblyVersion;
-                grunt.file.write(path.join(options.paths.csprojDirectory, options.paths.nuspec), doc);
+            if (options.paths.nuspec !== undefined | null) {
+                //Get version from AssemblyInfo file.
+                var assembly = grunt.file.read(path.join(options.paths.csprojDirectory, options.paths.assembly));
+                var major = assembly.split('\n')[0].replace('// Major= ', '');
+                var minor = assembly.split('\n')[1].replace('// Minor= ', '');
+                var build = assembly.split('\n')[2].replace('// Build= ', '');
+                var revision = assembly.split('\n')[3].replace('// Revision= ', '');
+                var assemblyVersion = [major, minor, build, revision].join('.').replace(/(\r\n|\n|\r)/gm, '');
+                //Edit nuspec file.
+                var xpath = require('xpath');
+                var dom = require('xmldom').DOMParser;
+                var xml = grunt.file.read(path.join(options.paths.csprojDirectory, options.paths.nuspec));
+                var doc = new dom().parseFromString(xml);
+                var version = xpath.select("//package/metadata/version", doc);
+                //Update if not the same.
+                if (assemblyVersion !== version[0].textContent) {
+                    version[0].textContent = assemblyVersion;
+                    grunt.file.write(path.join(options.paths.csprojDirectory, options.paths.nuspec), doc);
+                }
             }
-        }
+        });
     });
 
     grunt.registerTask('nugetPack', 'Create a nuget package', function () {
