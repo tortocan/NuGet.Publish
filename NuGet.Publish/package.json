@@ -1,33 +1,35 @@
 {
-  "name": "entityframework.lookuptables",
+  "name": "nuget.publish",
   "private": true,
-  "description": "Adds enum support to EntityFramework.",
+  "description": "Helpers to push package to NuGet.",
   "dependencies": {
   },
   "devDependencies": {
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.0.0",
     "grunt-msbuild": "0.3.7",
-    "edge": "6.5.1"
+    "edge": "6.5.1",
+    "xpath": "0.0.23",
+    "xmldom": "0.1.22"
   },
   "scripts": {
     "test": "echo test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tortocan/Entityframework.LookupTables"
+    "url": "https://github.com/tortocan/NuGet.Publish"
   },
   "keywords": [
-    "entityframework",
-    "lookuptables",
-    "enums"
+    "nuget",
+    "assembly",
+    "publish"
   ],
   "author": "George Tortocan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tortocan/Entityframework.LookupTables/issues"
+    "url": "https://github.com/tortocan/NuGet.Publishs/issues"
   },
-  "homepage": "https://github.com/tortocan/Entityframework.LookupTables",
+  "homepage": "https://github.com/tortocan/NuGet.Publish",
   "-vs-binding": {
     "BeforeBuild": [ "install" ],
     "ProjectOpened": [ "install" ]

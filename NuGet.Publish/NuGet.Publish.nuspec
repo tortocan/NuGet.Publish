@@ -1,0 +1,21 @@
+<?xml version="1.0"?><package>
+  <metadata>
+    <id>NuGet.Publish</id>
+    <version>1.0.1.4</version>
+    <authors>george.tortocan</authors>
+    <owners>george.tortocan</owners>
+    <projectUrl>https://github.com/tortocan/NuGet.Publish</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Helpers to push package to NuGet</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>NuGet Publish AssemblyInfo</tags>
+    <developmentDependency>true</developmentDependency>
+  </metadata>
+  <files>
+    <file src="bin\**\*.*" target="lib\net451" exclude="bin\**\*.*"/>
+    <file src="Gruntfile.js" target="content"/>
+    <file src="package.json" target="content"/>
+    <file src="Properties\AssemblyInfo.t4" target="content\Properties"/>
+  </files>
+</package>
