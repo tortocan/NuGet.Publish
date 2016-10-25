@@ -1,7 +1,7 @@
 <?xml version="1.0"?><package>
   <metadata>
     <id>NuGet.Publish</id>
-    <version>1.0.4.4</version>
+    <version>1.0.5.4</version>
     <authors>george.tortocan</authors>
     <owners>george.tortocan</owners>
     <projectUrl>https://github.com/tortocan/NuGet.Publish</projectUrl>
@@ -14,8 +14,12 @@
   </metadata>
   <files>
     <file src="bin\**\*.*" target="lib\net451" exclude="bin\**\*.*"/>
+    <file src="tools\Init.ps1" target="tools\Init.ps1"/>
+    <file src="NuGet.exe" target="content\NuGet.exe"/>
     <file src="Gruntfile.js" target="content"/>
     <file src="package.json" target="content"/>
     <file src="Properties\AssemblyInfo.t4" target="content\Properties"/>
+    <file src="dotnetcore\Gruntfile.js" target="dotnetcore"/>
+    <file src="dotnetcore\package.json" target="dotnetcore"/>
   </files>
 </package>
