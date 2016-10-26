@@ -39,8 +39,6 @@ module.exports = function (grunt) {
             nuspec: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['*.nuspec'])[0],
             assemblyT4: path.join('Properties', 'AssemblyInfo.t4'),
             assembly: path.join('Properties', 'AssemblyInfo.cs'),
-            projectJSON: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['project.json'])[0],
-            projectJSONBak: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['project.bak'])[0],
             nuget : grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['NuGet.exe'])[0]
         },
         nugetPushConfigurations: [
@@ -116,49 +114,24 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('updateAssembly', 'Triggers transform on t4 file.', function () {
-        if (options.paths.projectJSON === undefined) {
-            var done = this.async();
-            grunt.util.spawn({
-                cmd: path.join(process.env.CommonProgramFiles,
-                    'Microsoft Shared/TextTemplating/',
-                    process.env.VisualStudioVersion,
-                    '/texttransform.exe'),
-                args: [
-                    path.join(options.paths.csprojDirectory, options.paths.assemblyT4)
-                ]
-            }, function (error, result) {
-                if (error) {
-                    grunt.log.error(error);
-                } else {
-                    grunt.log.write(result);
-                }
-                done();
-                updateNuSpec();
-            });
-        } else {
-            var projectJSONFile = grunt.file.readJSON(options.paths.projectJSON);
-            if (options.paths.projectJSONBak === undefined) {
-                grunt.file.write('project.bak', JSON.stringify(projectJSONFile, null, 2));
-            }
-            var versionArray = projectJSONFile.version.split('.');
-
-            if (projectJSONFile.dateCreated === undefined) {
-                projectJSONFile.dateCreated = new Date().toLocaleDateString();
-                projectJSONFile.version = "1.0.0.0";
+        var done = this.async();
+        grunt.util.spawn({
+            cmd: path.join(process.env.CommonProgramFiles,
+                'Microsoft Shared/TextTemplating/',
+                process.env.VisualStudioVersion,
+                '/texttransform.exe'),
+            args: [
+                path.join(options.paths.csprojDirectory, options.paths.assemblyT4)
+            ]
+        }, function (error, result) {
+            if (error) {
+                grunt.log.error(error);
             } else {
-                var date = new Date(projectJSONFile.dateCreated);
-                var oneDay = 24 * 60 * 60 * 1000;
-                var totalDays = Math.round(Math.abs((new Date(new Date().toLocaleDateString()).getTime() - date.getTime()) / (oneDay)))
-                var major = parseInt(versionArray[0]);
-                var minor = parseInt(versionArray[1]);
-                var build = parseInt(versionArray[2]) + 1;
-                var revision = totalDays;
-                var version = [major, minor, build, revision].join('.');
-                projectJSONFile.version = version;
-                grunt.file.write('project.json', JSON.stringify(projectJSONFile, null, 2));
-                updateNuSpec();
+                grunt.log.write(result);
             }
-        }
+            done();
+            updateNuSpec();
+        });
     });
 
     grunt.registerTask('nugetPack', 'Create a nuget package', function () {
@@ -265,7 +238,7 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-msbuild');
-    grunt.registerTask('specDll', ['updateAssembly', 'msbuild:project', "nugetSpec"]);
     grunt.registerTask('build', ['updateAssembly', 'msbuild:project']);
+    grunt.registerTask('specDll', ['build', "nugetSpec"]);
     grunt.registerTask('publish', ['clean:nugetDirectory', 'build', 'nugetPack', 'nugetPush']);
 };

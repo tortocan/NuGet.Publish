@@ -10,7 +10,7 @@ module.exports = function (grunt) {
         paths: {
             xprojDirectory: path.resolve(),
             nugetDirectory: '.nupkg',
-            xproj: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['*.xsproj'])[0],
+            xproj: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['*.xproj'])[0],
             nuspec: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['*.nuspec'])[0],
             projectJSON: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['project.json'])[0],
             projectJSONBak: grunt.file.expand({ filter: 'isFile', cwd: "./" }, ['project.bak'])[0],
